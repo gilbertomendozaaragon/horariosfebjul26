@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CBTis 64 • Consulta de horarios (Febrero–Julio 2026)</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Snackbar */
+    #snackbar{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      background: rgba(20,30,50,.92);
+      color:#fff;
+      padding:10px 14px;
+      border-radius: 999px;
+      font-weight:700;
+      font-size:13px;
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .18s ease, transform .18s ease;
+      box-shadow: 0 10px 25px rgba(0,0,0,.22);
+      z-index: 9999;
+    }
+    #snackbar.show{opacity:1; transform:translateX(-50%) translateY(-2px);}
+  
+    @media print{
+      body{background:#fff !important;}
+      .topbar{box-shadow:none !important;}
+      .tabs, .controls, .hint, .footer, #snackbar{display:none !important;}
+      .panel{border:none !important; box-shadow:none !important; background:#fff !important; padding:0 !important;}
+      .container{max-width:none !important; padding:0 !important;}
+      #printArea{display:block !important;}
+      .grid-wrap{border:none !important;}
+      .grid{min-width:0 !important;}
+      .classcard, .pref-item{box-shadow:none !important;}
+      .printHeader{display:flex !important; gap:14px; align-items:center; padding:10px 0 6px; border-bottom:1px solid #ddd; margin-bottom:10px;}
+      .logoPrint{height:54px; width:auto;}
+      .printTitle{font-weight:900; font-size:16px;}
+      .printSub{color:#444; font-size:12px; margin-top:2px;}
+      /* ensure sticky headers don't break print */
+      .grid th, .grid td.time{position:static !important;}
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brandRow">
+          <img src="logo_toros_cbtis64.png" alt="Toros CBTis 64" class="logo" />
+          <div>
+            <h1>Consulta de horarios</h1>
+            <div class="sub">CBTis 64 • Semestre Febrero–Julio 2026</div>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Vistas">
+        <button class="tab active" data-view="grupos" role="tab" aria-selected="true">Grupos</button>
+        <button class="tab" data-view="docentes" role="tab">Docentes</button>
+        <button class="tab" data-view="aulas" role="tab">Aulas</button>
+        <button class="tab" data-view="prefectura" role="tab">Prefectura</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="controls">
+        <div class="field" id="fieldGroup">
+          <label for="selGrupo">Grupo</label>
+          <select class="select" id="selGrupo"></select>
+        </div>
+
+        <div class="field" id="fieldTeacher" style="display:none">
+          <label for="selDocente">Docente</label>
+          <select class="select" id="selDocente"></select>
+        </div>
+
+        <div class="field" id="fieldRoom" style="display:none">
+          <label for="selAula">Aula</label>
+          <select class="select" id="selAula"></select>
+        </div>
+
+        <div class="field" id="fieldDay" style="display:none">
+          <label for="selDia">Día</label>
+          <select class="select" id="selDia"></select>
+        </div>
+
+        <div class="field" id="fieldTime" style="display:none">
+          <label for="selHora">Hora</label>
+          <select class="select" id="selHora"></select>
+        </div>
+
+        <div class="field" id="fieldQuery" style="display:none">
+          <label for="txtFiltro">Filtro rápido</label>
+          <input class="input" id="txtFiltro" type="text" placeholder="Ej. 2-AM, CC3, Matemáticas, Erika..." />
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="btnConsultar">Consultar</button>
+          <button class="btn secondary" id="btnImprimir" title="Imprimir el horario consultado">Imprimir</button>
+        </div>
+      </div>
+
+      <div class="hint" id="hint"></div>
+
+      <div id="printArea">
+        <div id="printHeader" class="printHeader">
+          <img src="logo_toros_cbtis64.png" alt="Toros CBTis 64" class="logoPrint" />
+          <div>
+            <div class="printTitle">CBTis 64 • Consulta de horarios</div>
+            <div class="printSub" id="printSub">Semestre Febrero–Julio 2026</div>
+          </div>
+        </div>
+        <div style="margin-top:12px;font-weight:900" id="resultTitle">Resultado</div>
+        <div id="result"></div>
+      </div>
+
+      <div class="footer">
+        Hecho para consulta interna. La clase de <b>TUTORÍA</b> está resaltada en verde.
+      </div>
+    </div>
+  </div>
+
+  <div id="snackbar" aria-live="polite"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
